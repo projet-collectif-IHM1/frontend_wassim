@@ -24,32 +24,28 @@ export class HotelComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch hotels on component initialization
+    this.loadHotels();  // Call loadHotels to avoid duplicate code
+  }
+  
+  loadHotels(): void {
     this.hotelService.GetAllHotel().subscribe(
-      (data) => {
-        console.log("Hôtels reçus :", data);
-        this.hotels = data;
+      (data: any) => {
+        console.log('Hotels data:', data); // Log the fetched hotels data
+        if (data && data.hotels) {
+          this.hotels = data.hotels;  // Correctly assign hotels from response
+        } else {
+          console.error('No hotels data found in response');
+        }
         this.isLoading = false; // Stop loading when data is received
       },
       (error) => {
-        console.error("Erreur lors de la récupération des hôtels :", error);
+        console.error('Error fetching hotels:', error);
         this.isLoading = false; // Stop loading even on error
       }
     );
   }
-  loadHotels() {
-    this.hotelService.GetAllHotel().subscribe(
-      (data: any) => {
-        console.log('Hotels data:', data); // Log the fetched hotels data
-        this.hotels = data;
-      },
-      (error) => {
-        console.error('Error fetching hotels:', error);
-      }
-    );
-  }
   
-
-  delete(hotelId: string) {
+  delete(hotelId: string): void {
     console.log('Deleting hotel with ID:', hotelId); // Log the hotelId
     if (!hotelId) {
       console.error('Hotel ID is undefined');
@@ -58,7 +54,7 @@ export class HotelComponent implements OnInit {
     this.hotelService.deleteHotel(hotelId).subscribe(
       (response) => {
         console.log('Hotel deleted successfully', response);
-        this.loadHotels(); // Reload the hotels list
+        this.loadHotels(); // Reload the hotels list after deletion
       },
       (error) => {
         console.error('Error deleting hotel:', error);

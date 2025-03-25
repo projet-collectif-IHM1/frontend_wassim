@@ -12,7 +12,7 @@ export class HotelService {
   constructor(private http:HttpClient) { }
    
   deleteHotel(hotelId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}${hotelId}`);
+    return this.http.delete(`http://127.0.0.1:8000/hotels/${hotelId}`)
   }
 
   

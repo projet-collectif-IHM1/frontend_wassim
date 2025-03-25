@@ -29,6 +29,8 @@ import {MatButtonModule} from '@angular/material/button';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component'
 import {MatDialogModule} from '@angular/material/dialog';
 import { ContactComponent } from './contact/contact.component';
+import { PayeFormComponent } from './paye-form/paye-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { ContactComponent } from './contact/contact.component';
       FooterComponent,
       HotelComponent,
       ConfirmDialogComponent,
+      PayeFormComponent,
       
       
   ],
@@ -67,6 +70,7 @@ import { ContactComponent } from './contact/contact.component';
     MatMenuModule,
     MatButtonModule,
     MatDialogModule,
+    ReactiveFormsModule
    
     
     

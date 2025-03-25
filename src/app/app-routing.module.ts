@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { DestinationComponent } from './destination/destination.component';
 import { ContactComponent } from './contact/contact.component';
 import { HotelComponent } from './hotel/hotel.component';
+import { PayeFormComponent } from './paye-form/paye-form.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,16 @@ const routes: Routes = [
     pathMatch:'full',
     component:HotelComponent
   },
+  {
+    path: 'create',
+    pathMatch: 'full',
+    component:PayeFormComponent
+  },
+  {
+    path: 'Paye/edit/:id',
+    pathMatch: 'full',
+    component:PayeFormComponent
+  }
 
 ];
 
