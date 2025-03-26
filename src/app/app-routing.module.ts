@@ -5,6 +5,9 @@ import { DestinationComponent } from './destination/destination.component';
 import { ContactComponent } from './contact/contact.component';
 import { HotelComponent } from './hotel/hotel.component';
 import { PayeFormComponent } from './paye-form/paye-form.component';
+import { HotelFormComponent } from './hotel-form/hotel-form.component';
+import { ChambreComponent } from './chambre/chambre.component';
+import { ChambreFormComponent } from './chambre-form/chambre-form.component';
 
 
 const routes: Routes = [
@@ -33,7 +36,33 @@ const routes: Routes = [
     path: 'Paye/edit/:id',
     pathMatch: 'full',
     component:PayeFormComponent
+  },
+  {
+    path: 'createHotel',
+    pathMatch: 'full',
+    component:HotelFormComponent
   }
+  ,{
+    path: 'Hotel/edit/:id',
+    pathMatch: 'full',
+    component:HotelFormComponent
+  },
+  {
+    path: 'Chambre',
+    pathMatch: 'full',
+    component:ChambreComponent
+  },
+  {
+    path: 'createChambre',
+    pathMatch: 'full',
+    component:ChambreFormComponent
+  },
+  {
+    path: 'Chambre/edit/:id',
+    pathMatch: 'full',
+    component:ChambreFormComponent
+  }
+ 
 
 ];
 

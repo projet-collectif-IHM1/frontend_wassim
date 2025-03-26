@@ -31,6 +31,10 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { ContactComponent } from './contact/contact.component';
 import { PayeFormComponent } from './paye-form/paye-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HotelFormComponent } from './hotel-form/hotel-form.component';
+import { ChambreComponent } from './chambre/chambre.component';
+import { ChambreFormComponent } from './chambre-form/chambre-form.component';
+
 
 @NgModule({
   declarations: [
@@ -45,6 +49,9 @@ import { ReactiveFormsModule } from '@angular/forms';
       HotelComponent,
       ConfirmDialogComponent,
       PayeFormComponent,
+      HotelFormComponent,
+      ChambreComponent,
+      ChambreFormComponent,
       
       
   ],

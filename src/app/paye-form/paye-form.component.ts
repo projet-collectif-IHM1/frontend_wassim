@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PayeService } from '../Services/paye.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,60 +9,97 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./paye-form.component.css']
 })
 export class PayeFormComponent implements OnInit {
+  payeForm: FormGroup; // Changed from 'form' to 'payeForm' for consistency
+  isEditMode = false;
+  currentId: string | null = null;
 
-  form!: FormGroup; // Define the form group
   constructor(
-    private MS: PayeService, 
-    private router: Router, 
-    private activatedRoute: ActivatedRoute
-  ) {}
+    private payeService: PayeService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    // Initialize form with proper controls
+    this.payeForm = new FormGroup({
+      nompaye: new FormControl('', Validators.required),
+      imagepaye: new FormControl('', Validators.required)
+    });
+  }
 
-  ngOnInit() {
-    const idcourant = this.activatedRoute.snapshot.params['id'];
-    console.log(idcourant);
-    if (idcourant) {
-      this.MS.getPayeById(idcourant).subscribe((data) => {
-        console.log(data);
-        this.form = new FormGroup({
-          nompaye: new FormControl(data.paye.nompaye),
-          imagepaye: new FormControl(data.paye.imagepaye),
-        });
-      });
-    } else {
-      this.form = new FormGroup({
-        nompaye: new FormControl(null),
-        imagepaye: new FormControl(null),
-      });
+  ngOnInit(): void {
+    this.currentId = this.route.snapshot.params['id'];
+    this.isEditMode = !!this.currentId;
+
+    if (this.isEditMode) {
+      this.loadPayeForEdit();
     }
   }
-  
-  
 
-  onsub(): void {
-    const idcourant = this.activatedRoute.snapshot.params['id'];
-    
-    if (idcourant) {
-      console.log("Updating record with ID:", idcourant);
-      console.log("Form data:", this.form.value);
-  
-      this.MS.updatePaye(this.form.value, idcourant).subscribe(() => {
-        // Redirect to home page after success
-        this.router.navigate(['']);
-      }, (error) => {
-        console.error("Error updating paye:", error);
-      });
+  private loadPayeForEdit(): void {
+    this.payeService.getPayeById(this.currentId!).subscribe({
+      next: (response) => {
+        // Handle both direct object and nested 'paye' property responses
+        const payeData = response.paye || response;
+        if (payeData) {
+          this.payeForm.patchValue({
+            nompaye: payeData.nompaye,
+            imagepaye: payeData.imagepaye
+          });
+        } else {
+          console.error('Invalid paye data:', response);
+          this.router.navigate(['Paye']);
+        }
+      },
+      error: (err) => {
+        console.error('Error loading paye:', err);
+        this.router.navigate(['Paye']);
+      }
+    });
+  }
+
+  onSubmit(): void {
+    if (this.payeForm.invalid) {
+      this.markAllAsTouched();
+      return;
+    }
+
+    const formData = this.payeForm.value;
+
+    if (this.isEditMode) {
+      this.updatePaye(formData);
     } else {
-      console.log("Creating new record");
-      console.log("Form data:", this.form.value);
-  
-      this.MS.addPaye(this.form.value).subscribe(() => {
-        // Redirect to home page after success
-        this.router.navigate(['']);
-      }, (error) => {
-        console.error("Error adding paye:", error);
-      });
+      this.createPaye(formData);
     }
   }
-  
-  
+
+  private updatePaye(formData: any): void {
+    this.payeService.updatePaye(this.currentId!, formData).subscribe({
+      next: () => {
+        this.router.navigate(['Paye']); // Redirect to paye list after update
+      },
+      error: (err) => {
+        console.error('Error updating paye:', err);
+      }
+    });
+  }
+
+  private createPaye(formData: any): void {
+    this.payeService.addPaye(formData).subscribe({
+      next: () => {
+        this.router.navigate(['Paye']); // Redirect to paye list after creation
+      },
+      error: (err) => {
+        console.error('Error creating paye:', err);
+      }
+    });
+  }
+
+  private markAllAsTouched(): void {
+    Object.values(this.payeForm.controls).forEach(control => {
+      control.markAsTouched();
+    });
+  }
+
+  onCancel(): void {
+    this.router.navigate(['Paye']);
+  }
 }
