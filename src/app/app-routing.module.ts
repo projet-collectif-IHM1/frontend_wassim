@@ -8,6 +8,8 @@ import { PayeFormComponent } from './paye-form/paye-form.component';
 import { HotelFormComponent } from './hotel-form/hotel-form.component';
 import { ChambreComponent } from './chambre/chambre.component';
 import { ChambreFormComponent } from './chambre-form/chambre-form.component';
+import { OfferComponent } from './offer/offer.component';
+import { OfferFormComponent } from './offer-form/offer-form.component';
 
 
 const routes: Routes = [
@@ -61,6 +63,22 @@ const routes: Routes = [
     path: 'Chambre/edit/:id',
     pathMatch: 'full',
     component:ChambreFormComponent
+  },
+  {
+    path: 'Offer',
+    pathMatch: 'full',
+    component:OfferComponent
+  },
+  {
+    path: 'createOffer',
+    pathMatch: 'full',
+    component:OfferFormComponent
+  }
+  ,
+  {
+    path: 'Offer/edit/:id',
+    pathMatch: 'full',
+    component:OfferFormComponent
   }
  
 

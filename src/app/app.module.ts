@@ -34,6 +34,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HotelFormComponent } from './hotel-form/hotel-form.component';
 import { ChambreComponent } from './chambre/chambre.component';
 import { ChambreFormComponent } from './chambre-form/chambre-form.component';
+import { OfferComponent } from './offer/offer.component';
+import { OfferFormComponent } from './offer-form/offer-form.component';
 
 
 @NgModule({
@@ -52,6 +54,8 @@ import { ChambreFormComponent } from './chambre-form/chambre-form.component';
       HotelFormComponent,
       ChambreComponent,
       ChambreFormComponent,
+      OfferComponent,
+      OfferFormComponent,
       
       
   ],
