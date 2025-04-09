@@ -36,6 +36,11 @@ import { ChambreComponent } from './chambre/chambre.component';
 import { ChambreFormComponent } from './chambre-form/chambre-form.component';
 import { OfferComponent } from './offer/offer.component';
 import { OfferFormComponent } from './offer-form/offer-form.component';
+import { ReservationFormComponent } from './reservation-form/reservation-form.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -56,6 +61,7 @@ import { OfferFormComponent } from './offer-form/offer-form.component';
       ChambreFormComponent,
       OfferComponent,
       OfferFormComponent,
+      ReservationFormComponent,
       
       
   ],
@@ -81,7 +87,11 @@ import { OfferFormComponent } from './offer-form/offer-form.component';
     MatMenuModule,
     MatButtonModule,
     MatDialogModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule,
+    CommonModule,
+    FormsModule
+    
    
     
     

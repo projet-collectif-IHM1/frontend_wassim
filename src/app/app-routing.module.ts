@@ -10,6 +10,7 @@ import { ChambreComponent } from './chambre/chambre.component';
 import { ChambreFormComponent } from './chambre-form/chambre-form.component';
 import { OfferComponent } from './offer/offer.component';
 import { OfferFormComponent } from './offer-form/offer-form.component';
+import { ReservationFormComponent } from './reservation-form/reservation-form.component';
 
 
 const routes: Routes = [
@@ -79,6 +80,16 @@ const routes: Routes = [
     path: 'Offer/edit/:id',
     pathMatch: 'full',
     component:OfferFormComponent
+  },
+  {
+    path: 'createReservation',
+    pathMatch: 'full',
+    component:ReservationFormComponent
+  },
+  {
+    path: 'Reservation/edit/:id', 
+    pathMatch: 'full',
+    component:ReservationFormComponent
   }
  
 

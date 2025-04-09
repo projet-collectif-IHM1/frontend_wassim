@@ -49,38 +49,37 @@ export class OfferComponent implements OnInit {
       });
     }
   
-    deleteOffer(id: string): void {
-      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-        height: '400px',
-        width: '600px',
-        data: { 
-          message: 'Êtes-vous sûr de vouloir supprimer cette offre?',
-          title: 'Confirmation de suppression'
-        }
-      });
-    
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          // First verify the endpoint URL
-          console.log('Attempting to delete offer with ID:', id);
+    // offer.component.ts
+deleteOffer(id: string): void {
+  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    width: '400px',
+    data: {
+      title: 'Confirm Deletion',
+      message: 'Are you sure you want to delete this offer?'
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(confirmed => {
+    if (confirmed) {
+      this.isLoading = true;
+      this.offerService.deleateOffer(id).subscribe({
+        next: () => {
+          // Remove from local array
+          this.offers = this.offers.filter(o => o.id !== id);
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.error('Delete failed:', err);
+          this.isLoading = false;
           
-          this.offerService.deleateOffer(id).subscribe({
-            next: () => {
-              console.log('Successfully deleted offer');
-              this.offers = this.offers.filter(offer => offer.id !== id);
-              // Optional: show success message
-            },
-            error: (err) => {
-              console.error('Error deleting offer:', err);
-              this.errorMessage = 'Échec de la suppression. Veuillez réessayer.';
-              
-              // More specific error handling
-              if (err.status === 404) {
-                this.errorMessage = 'Offre non trouvée. Elle a peut-être déjà été supprimée.';
-              }
-            }
-          });
+          if (err.status === 404) {
+            alert('Offer not found. It may have already been deleted.');
+          } else {
+            alert('Error deleting offer. Please try again.');
+          }
         }
       });
     }
+  });
+}
 }
