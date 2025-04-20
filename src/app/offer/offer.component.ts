@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { OfferService } from '../Services/offer.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
   selector: 'app-offer',
@@ -9,77 +11,145 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
   styleUrls: ['./offer.component.css']
 })
 export class OfferComponent implements OnInit {
+  offers: any[] = [];
+  filteredOffers: any[] = [];
+  isLoading: boolean = true;
+  errorMessage: string | null = null;
+  searchControl = new FormControl('');
   
-    offers: any[] = [];
-    isLoading: boolean = true;
-    errorMessage: string | null = null;
+  // Pagination variables
+  currentPage: number = 1;
+  itemsPerPage: number = 10;
+  totalItems: number = 0;
 
-    constructor(
-      private offerService: OfferService,
-      private dialog: MatDialog
-    ) {}
-  
-    ngOnInit(): void {
-      this.loadOffers();
-    }
-  
-    loadOffers(): void {
-      this.isLoading = true;
-      this.errorMessage = null;
+  constructor(
+    private offerService: OfferService,
+    private dialog: MatDialog
+  ) {}
+
+  ngOnInit(): void {
+    this.loadOffers();
+    
+    // Setup search with debounce
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(() => {
+        this.filterOffers();
+        this.currentPage = 1; // Reset to first page when searching
+      });
+  }
+  getDisplayedRange(): string {
+    const start = (this.currentPage - 1) * this.itemsPerPage + 1;
+    const end = Math.min(this.currentPage * this.itemsPerPage, this.totalItems);
+    return `${start}-${end}`;
+  }
+
+  loadOffers(): void {
+    this.isLoading = true;
+    this.errorMessage = null;
+    
+    this.offerService.getAllOffer().subscribe({
+      next: (response: any) => {
+        if (response && response.offres && Array.isArray(response.offres)) {
+          this.offers = response.offres;
+          this.filteredOffers = [...this.offers];
+          this.totalItems = this.offers.length;
+        } else {
+          this.errorMessage = 'La structure des données reçues est inattendue';
+          console.error(this.errorMessage, response);
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        this.errorMessage = 'Erreur lors du chargement des offres';
+        console.error(this.errorMessage, err);
+        this.isLoading = false;
+      }
+    });
+  }
+
+  filterOffers(): void {
+    const searchTerm = this.searchControl.value?.toLowerCase() || '';
+    this.filteredOffers = this.offers.filter(offer => 
+      offer.prixParNuit.toString().includes(searchTerm) ||
+      offer.promotion.toString().includes(searchTerm)
+    );
+    this.totalItems = this.filteredOffers.length;
+  }
+
+  // Pagination methods
+  get paginatedOffers(): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredOffers.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  changePage(page: number): void {
+    this.currentPage = page;
+  }
+
+  get totalPages(): number {
+    return Math.ceil(this.totalItems / this.itemsPerPage);
+  }
+
+  get pages(): number[] {
+    const pages = [];
+    const maxVisiblePages = 5;
+    let startPage = 1;
+    let endPage = this.totalPages;
+    
+    if (this.totalPages > maxVisiblePages) {
+      const half = Math.floor(maxVisiblePages / 2);
+      startPage = Math.max(1, this.currentPage - half);
+      endPage = startPage + maxVisiblePages - 1;
       
-      this.offerService.getAllOffer().subscribe({
-        next: (response: any) => {
-          console.log('API Response:', response);
-          
-          // Correction ici - utiliser response.offres au lieu de response.offers
-          if (response && response.offres && Array.isArray(response.offres)) {
-            this.offers = response.offres;
-          } else {
-            this.errorMessage = 'La structure des données reçues est inattendue';
-            console.error(this.errorMessage, response);
-          }
-          
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.errorMessage = 'Erreur lors du chargement des offres';
-          console.error(this.errorMessage, err);
-          this.isLoading = false;
-        }
-      });
+      if (endPage > this.totalPages) {
+        endPage = this.totalPages;
+        startPage = endPage - maxVisiblePages + 1;
+      }
     }
-  
-    // offer.component.ts
-deleteOffer(id: string): void {
-  const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-    width: '400px',
-    data: {
-      title: 'Confirm Deletion',
-      message: 'Are you sure you want to delete this offer?'
+    
+    for (let i = startPage; i <= endPage; i++) {
+      pages.push(i);
     }
-  });
+    
+    return pages;
+  }
 
-  dialogRef.afterClosed().subscribe(confirmed => {
-    if (confirmed) {
-      this.isLoading = true;
-      this.offerService.deleateOffer(id).subscribe({
-        next: () => {
-          // Remove from local array
-          this.offers = this.offers.filter(o => o.id !== id);
-          this.isLoading = false;
-        },
-        error: (err) => {
-          console.error('Delete failed:', err);
-          this.isLoading = false;
-          
-          if (err.status === 404) {
-            alert('Offer not found. It may have already been deleted.');
-          } else {
-            alert('Error deleting offer. Please try again.');
+  deleteOffer(id: string): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirm Deletion',
+        message: 'Are you sure you want to delete this offer?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(confirmed => {
+      if (confirmed) {
+        this.isLoading = true;
+        this.offerService.deleateOffer(id).subscribe({
+          next: () => {
+            // Remove from local arrays
+            this.offers = this.offers.filter(o => o.id !== id);
+            this.filteredOffers = this.filteredOffers.filter(o => o.id !== id);
+            this.totalItems = this.filteredOffers.length;
+            this.isLoading = false;
+          },
+          error: (err) => {
+            console.error('Delete failed:', err);
+            this.isLoading = false;
+            
+            if (err.status === 404) {
+              alert('Offer not found. It may have already been deleted.');
+            } else {
+              alert('Error deleting offer. Please try again.');
+            }
           }
-        }
-      });
-    }
-  });
-}
+        });
+      }
+    });
+  }
 }
