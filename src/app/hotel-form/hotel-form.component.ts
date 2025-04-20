@@ -50,7 +50,9 @@ export class HotelFormComponent implements OnInit {
       hebergement: new FormControl('', Validators.required),
       restauration: new FormControl('', Validators.required),
       activites: new FormControl('', Validators.required),
-      paye_id: new FormControl('', Validators.required)
+      paye_id: new FormControl('', Validators.required),
+      datedabut: new FormControl('', Validators.required),
+      datefin: new FormControl('', Validators.required)
     });
   }
 
@@ -76,7 +78,7 @@ export class HotelFormComponent implements OnInit {
     this.hotelService.getHotelById(this.currentId!).subscribe({
       next: (response) => {
         try {
-          const hotelData = response; // Direct response or response.hotel depending on your API
+          const hotelData = response;
           if (hotelData) {
             this.hotelForm.patchValue({
               nomHotel: hotelData.nomHotel,
@@ -88,7 +90,9 @@ export class HotelFormComponent implements OnInit {
               hebergement: hotelData.hebergement || '',
               restauration: hotelData.restauration || '',
               activites: hotelData.activites || '',
-              paye_id: hotelData.paye_id || ''
+              paye_id: hotelData.paye_id || '',
+              datedabut: hotelData.datedabut || '',
+              datefin: hotelData.datefin || ''
             });
           } else {
             this.errorMessage = 'Invalid hotel data received';
@@ -128,7 +132,8 @@ export class HotelFormComponent implements OnInit {
     return {
       ...rawData,
       imageHotel: rawData.imageHotel.split(',').map((url: string) => url.trim()),
-      
+      datedabut: new Date(rawData.datedabut).toISOString(),
+      datefin: new Date(rawData.datefin).toISOString()
     };
   }
 
@@ -136,7 +141,7 @@ export class HotelFormComponent implements OnInit {
     this.isLoading = true;
     this.hotelService.updateHotel(this.currentId!, formData).subscribe({
       next: () => {
-        this.router.navigate(['Hotel']); // Changed from 'Hotel'
+        this.router.navigate(['Hotel']);
         this.isLoading = false;
       },
       error: (err) => {
@@ -151,7 +156,7 @@ export class HotelFormComponent implements OnInit {
     this.isLoading = true;
     this.hotelService.createHotel(formData).subscribe({
       next: () => {
-        this.router.navigate(['Hotel']); // Changed from 'Hotel'
+        this.router.navigate(['Hotel']);
         this.isLoading = false;
       },
       error: (err) => {
@@ -169,7 +174,7 @@ export class HotelFormComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['Hotel']); // Changed from '/hotels'
+    this.router.navigate(['Hotel']);
   }
 
   onDelete(): void {
@@ -177,7 +182,7 @@ export class HotelFormComponent implements OnInit {
       this.isLoading = true;
       this.hotelService.deleteHotel(this.currentId!).subscribe({
         next: () => {
-          this.router.navigate(['Hotel']); // Changed from '/hotels'
+          this.router.navigate(['Hotel']);
           this.isLoading = false;
         },
         error: (err) => {

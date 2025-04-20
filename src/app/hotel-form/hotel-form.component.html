@@ -86,102 +86,145 @@
                 </div>
 
                 <!-- Country Selection Field -->
-<div class="form-group">
-    <label for="paye_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-        Country
-    </label>
-    <select id="paye_id"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-            formControlName="paye_id"
-            [class.border-red-500]="hotelForm.get('paye_id')?.invalid && hotelForm.get('paye_id')?.touched">
-        <option value="">Select a country</option>
-        <option *ngFor="let country of countries" [value]="country.id">
-            {{ country.nompaye }}
-        </option>
-    </select>
-    
-    <div *ngIf="hotelForm.get('paye_id')?.invalid && hotelForm.get('paye_id')?.touched" 
-         class="mt-1 text-sm text-red-600 dark:text-red-400">
-        <span *ngIf="hotelForm.get('paye_id')?.errors?.['required']">
-            Country selection is required
-        </span>
-    </div>
-</div>
+                <div class="form-group">
+                    <label for="paye_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Country
+                    </label>
+                    <select id="paye_id"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                            formControlName="paye_id"
+                            [class.border-red-500]="hotelForm.get('paye_id')?.invalid && hotelForm.get('paye_id')?.touched">
+                        <option value="">Select a country</option>
+                        <option *ngFor="let country of countries" [value]="country.id">
+                            {{ country.nompaye }}
+                        </option>
+                    </select>
+                    
+                    <div *ngIf="hotelForm.get('paye_id')?.invalid && hotelForm.get('paye_id')?.touched" 
+                         class="mt-1 text-sm text-red-600 dark:text-red-400">
+                        <span *ngIf="hotelForm.get('paye_id')?.errors?.['required']">
+                            Country selection is required
+                        </span>
+                    </div>
+                </div>
 
-                <!-- Description Field -->
-                  <!-- Address Field -->
+                <!-- Start Date Field -->
+                <div class="form-group">
+                    <label for="datedabut" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Start Date
+                    </label>
+                    <input type="date" id="datedabut"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                           formControlName="datedabut"
+                           [class.border-red-500]="hotelForm.get('datedabut')?.invalid && hotelForm.get('datedabut')?.touched">
+                    
+                    <div *ngIf="hotelForm.get('datedabut')?.invalid && hotelForm.get('datedabut')?.touched" 
+                         class="mt-1 text-sm text-red-600 dark:text-red-400">
+                        <span *ngIf="hotelForm.get('datedabut')?.errors?.['required']">
+                            Start date is required
+                        </span>
+                    </div>
+                </div>
+
+                <!-- End Date Field -->
+                <div class="form-group">
+                    <label for="datefin" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        End Date
+                    </label>
+                    <input type="date" id="datefin"
+                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                           formControlName="datefin"
+                           [class.border-red-500]="hotelForm.get('datefin')?.invalid && hotelForm.get('datefin')?.touched">
+                    
+                    <div *ngIf="hotelForm.get('datefin')?.invalid && hotelForm.get('datefin')?.touched" 
+                         class="mt-1 text-sm text-red-600 dark:text-red-400">
+                        <span *ngIf="hotelForm.get('datefin')?.errors?.['required']">
+                            End date is required
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Accommodation Description -->
                 <div class="form-group sm:col-span-2">
                     <label for="hebergement" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        hebergement
-                        
+                        Accommodation Details
                     </label>
-                    <textarea type="text" id="hebergement"
+                    <textarea id="hebergement"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                           placeholder="Enter hotel address"
+                           placeholder="Describe the accommodation"
                            formControlName="hebergement"
                            [class.border-red-500]="hotelForm.get('hebergement')?.invalid && hotelForm.get('hebergement')?.touched"></textarea>
                     
                     <div *ngIf="hotelForm.get('hebergement')?.invalid && hotelForm.get('hebergement')?.touched" 
                          class="mt-1 text-sm text-red-600 dark:text-red-400">
                         <span *ngIf="hotelForm.get('hebergement')?.errors?.['required']">
-                            hebergement is required
+                            Accommodation details are required
                         </span>
                     </div>
                 </div>
-                 <!-- Address Field -->
-                 <div class="form-group sm:col-span-2">
+
+                <!-- Dining Description -->
+                <div class="form-group sm:col-span-2">
                     <label for="restauration" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        
-                        restauration
-                        
+                        Dining Options
                     </label>
-                    <textarea type="text" id="restauration"
+                    <textarea id="restauration"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                           placeholder="Enter hotel address"
+                           placeholder="Describe the dining options"
                            formControlName="restauration"
                            [class.border-red-500]="hotelForm.get('restauration')?.invalid && hotelForm.get('restauration')?.touched"></textarea>
                     
                     <div *ngIf="hotelForm.get('restauration')?.invalid && hotelForm.get('restauration')?.touched" 
                          class="mt-1 text-sm text-red-600 dark:text-red-400">
                         <span *ngIf="hotelForm.get('restauration')?.errors?.['required']">
-                            restauration is required
+                            Dining information is required
                         </span>
                     </div>
                 </div>
-                 <!-- Address Field -->
-                 <div class="form-group sm:col-span-2">
+
+                <!-- Activities Description -->
+                <div class="form-group sm:col-span-2">
                     <label for="activites" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                       
-                        activites
+                        Activities
                     </label>
-                    <textarea type="text" id="activites"
+                    <textarea id="activites"
                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                           placeholder="Enter hotel address"
+                           placeholder="Describe available activities"
                            formControlName="activites"
                            [class.border-red-500]="hotelForm.get('activites')?.invalid && hotelForm.get('activites')?.touched"></textarea>
                     
                     <div *ngIf="hotelForm.get('activites')?.invalid && hotelForm.get('activites')?.touched" 
                          class="mt-1 text-sm text-red-600 dark:text-red-400">
                         <span *ngIf="hotelForm.get('activites')?.errors?.['required']">
-                            Address is required
+                            Activities information is required
                         </span>
                     </div>
                 </div>
-                
             </div>
 
             <div class="flex items-center space-x-4">
                 <!-- Submit Button -->
                 <button type="submit" 
                         class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                        [disabled]="hotelForm.invalid">
-                    {{ isEditMode ? 'Update' : 'Create' }}
+                        [disabled]="hotelForm.invalid || isLoading">
+                    <span *ngIf="isLoading" class="flex items-center">
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                    </span>
+                    <span *ngIf="!isLoading">
+                        {{ isEditMode ? 'Update' : 'Create' }}
+                    </span>
                 </button>
 
                 <!-- Delete Button (only shown in edit mode) -->
                 <button *ngIf="isEditMode" 
                         type="button" 
-                        class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
+                        (click)="onDelete()"
+                        class="text-red-600 inline-flex items-center hover:text-white border border-red-600 hover:bg-red-600 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
+                        [disabled]="isLoading">
                     <svg class="w-5 h-5 mr-1 -ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                     </svg>
@@ -191,7 +234,8 @@
                 <!-- Cancel Button -->
                 <button type="button" 
                         (click)="onCancel()"
-                        class="text-gray-600 inline-flex items-center hover:text-white border border-gray-600 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-900">
+                        class="text-gray-600 inline-flex items-center hover:text-white border border-gray-600 hover:bg-gray-600 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-gray-500 dark:text-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-900"
+                        [disabled]="isLoading">
                     Cancel
                 </button>
             </div>

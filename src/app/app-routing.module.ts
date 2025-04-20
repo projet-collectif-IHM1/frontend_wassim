@@ -11,6 +11,7 @@ import { ChambreFormComponent } from './chambre-form/chambre-form.component';
 import { OfferComponent } from './offer/offer.component';
 import { OfferFormComponent } from './offer-form/offer-form.component';
 import { ReservationFormComponent } from './reservation-form/reservation-form.component';
+import { UserComponent } from './user/user.component';
 
 
 const routes: Routes = [
@@ -21,6 +22,11 @@ const routes: Routes = [
   {path:'Destination',
     pathMatch:'full',
     component:DestinationComponent
+  },
+  {
+    path: 'User',
+    pathMatch: 'full',
+    component:UserComponent
   },
   {path:'Reservation',
     pathMatch:'full',

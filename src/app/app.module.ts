@@ -40,6 +40,8 @@ import { ReservationFormComponent } from './reservation-form/reservation-form.co
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UserComponent } from './user/user.component';
+
 
 
 
@@ -62,6 +64,7 @@ import { FormsModule } from '@angular/forms';
       OfferComponent,
       OfferFormComponent,
       ReservationFormComponent,
+      UserComponent,
       
       
   ],
