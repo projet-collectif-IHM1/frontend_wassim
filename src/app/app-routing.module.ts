@@ -12,6 +12,8 @@ import { OfferComponent } from './offer/offer.component';
 import { OfferFormComponent } from './offer-form/offer-form.component';
 import { ReservationFormComponent } from './reservation-form/reservation-form.component';
 import { UserComponent } from './user/user.component';
+import { OptionComponent } from './option/option.component';
+import { OptionFormComponent } from './option-form/option-form.component';
 
 
 const routes: Routes = [
@@ -96,6 +98,21 @@ const routes: Routes = [
     path: 'Reservation/edit/:id', 
     pathMatch: 'full',
     component:ReservationFormComponent
+  },
+  {
+    path: 'Option',
+    pathMatch: 'full',
+    component:OptionComponent
+  },
+  {
+    path: 'createOption',
+    pathMatch: 'full',
+    component:OptionFormComponent
+  },
+  {
+    path: 'Option/edit/:id',
+    pathMatch: 'full',
+    component:OptionFormComponent
   }
  
 

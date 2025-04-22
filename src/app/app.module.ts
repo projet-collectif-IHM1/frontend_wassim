@@ -41,6 +41,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserComponent } from './user/user.component';
+import { OptionComponent } from './option/option.component';
+import { OptionFormComponent } from './option-form/option-form.component';
 
 
 
@@ -65,6 +67,8 @@ import { UserComponent } from './user/user.component';
       OfferFormComponent,
       ReservationFormComponent,
       UserComponent,
+      OptionComponent,
+      OptionFormComponent,
       
       
   ],
